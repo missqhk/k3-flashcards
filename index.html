@@ -69,7 +69,7 @@
 
         .card-container {
             width: 85vw;
-            min-height: 55vh; /* 🌟 修正：改用彈性高度，字太多會自動拉長，不再跌出框外 */
+            min-height: 55vh; 
             height: auto;
             max-width: 600px;
             background: rgba(255, 255, 255, 0.95);
@@ -81,7 +81,7 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 25px; 
-            padding: 30px 20px; /* 增加上下 Padding，讓版面更鬆動 */
+            padding: 30px 20px; 
             text-align: center;
             box-sizing: border-box;
             position: relative;
@@ -185,7 +185,7 @@
 <body>
 
     <audio id="bgMusic" loop>
-        <source src="https://www.mfiles.co.uk/mp3-downloads/twinkle-twinkle-little-star.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
     <button id="muteBtn" onclick="toggleMusic()">🔊</button>
@@ -197,7 +197,7 @@
             <div class="start-text">
                 這裡有 <strong>88</strong> 個幼稚園 K3<br>常見中文字！<br><br>你準備好接受挑戰了嗎？
             </div>
-            <button class="btn btn-action" onclick="startGame()">接受挑戰 🚀</button>
+            <button type="button" class="btn btn-action" onclick="startGame()">接受挑戰 🚀</button>
         </div>
     </div>
 
@@ -205,7 +205,7 @@
         <div class="card-container">
             <div class="word" id="wordDisplay"></div>
         </div>
-        <button class="btn" onclick="handleAnswer()">正確 🌟</button>
+        <button type="button" class="btn" onclick="handleAnswer()">正確 🌟</button>
     </div>
 
     <div id="end-screen">
@@ -215,4 +215,98 @@
             <div class="end-text">你答對了 <span id="scoreDisplay" style="color: #27AE60;">0</span> 個字！</div>
             
             <input type="text" id="playerName" placeholder="輸入你的名字">
-            <button class="btn btn-action" id="submitBtn" onclick="showPraise()">領取獎盃
+            <button type="button" class="btn btn-action" id="submitBtn" onclick="showPraise()">領取獎盃 🎁</button>
+            
+            <div class="praise-message" id="praiseMessage"></div>
+        </div>
+    </div>
+
+    <div class="footer">遊戲設計： Miss Q</div>
+
+    <script>
+        // 使用極高相容性寫法，確保唔會「拉傷肌肉」
+        var words = ["人", "口", "手", "足", "目", "耳", "頭", "心", "父", "母", "爸", "媽", "哥", "姐", "弟", "妹", "男", "女", "子", "老", "師", "生", "友", "山", "水", "石", "田", "土", "火", "風", "雨", "雪", "電", "天", "地", "花", "草", "木", "魚", "鳥", "馬", "牛", "羊", "狗", "貓", "蟲", "紅", "黃", "藍", "綠", "黑", "白", "上", "下", "左", "右", "前", "後", "中", "內", "外", "大", "小", "長", "短", "坐", "立", "走", "跑", "看", "聽", "說", "讀", "寫", "吃", "喝", "玩", "去", "來", "出", "入", "開", "關", "家", "車", "書", "筆", "衣"];
+        var currentIndex = 0;
+        var score = 0;
+
+        function startGame() {
+            try {
+                // 第一時間切換畫面，絕對唔會卡住
+                document.getElementById('start-screen').style.display = 'none';
+                document.getElementById('game-container').style.display = 'flex';
+                updateCard();
+            } catch(e) {
+                alert("畫面切換錯誤！");
+            }
+
+            try {
+                // 音樂獨立播放，失敗都唔影響遊戲
+                var bgMusic = document.getElementById('bgMusic');
+                var playPromise = bgMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(function(error) {
+                        console.log("音樂需手動播放");
+                    });
+                }
+                document.getElementById('muteBtn').innerHTML = '🔊';
+            } catch(e) {
+                console.log("音樂模組暫時無法使用");
+            }
+        }
+
+        function updateCard() {
+            document.getElementById('wordDisplay').textContent = words[currentIndex];
+        }
+
+        function handleAnswer() {
+            score++;
+            currentIndex++;
+            if (currentIndex < words.length) {
+                updateCard();
+            } else {
+                showEndScreen();
+            }
+        }
+
+        function showEndScreen() {
+            document.getElementById('game-container').style.display = 'none';
+            document.getElementById('end-screen').style.display = 'flex';
+            document.getElementById('scoreDisplay').textContent = score;
+        }
+
+        function showPraise() {
+            var nameInput = document.getElementById('playerName');
+            var name = nameInput.value.trim();
+            if (name === "") {
+                alert("請先輸入名字喔！");
+                return;
+            }
+            
+            var praise = document.getElementById('praiseMessage');
+            praise.innerHTML = "<strong>" + name + "</strong> 小朋友，你太棒了！<br>學習是一件快樂的事，表現出色。<br>這座獎盃是你努力的證明，<br>請保持積極的心，未來更閃耀！✨🌈";
+            praise.style.display = 'block';
+            
+            nameInput.style.display = 'none';
+            document.getElementById('submitBtn').style.display = 'none';
+        }
+
+        function toggleMusic() {
+            var bgMusic = document.getElementById('bgMusic');
+            var muteBtn = document.getElementById('muteBtn');
+            try {
+                if (bgMusic.paused) {
+                    var p = bgMusic.play();
+                    if (p !== undefined) { 
+                        p.catch(function(e){}); 
+                    }
+                    muteBtn.innerHTML = '🔊';
+                } else {
+                    bgMusic.pause();
+                    muteBtn.innerHTML = '🔇';
+                }
+            } catch(e) {}
+        }
+    </script>
+
+</body>
+</html>
