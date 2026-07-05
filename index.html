@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>幼兒識字閃卡</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@900&family=ZCOOL+XiaoWei&family=Ma+Shan+Zheng&family=Noto+Sans+TC&family=Noto+Serif+HK&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=TW-Kai&display=swap" rel="stylesheet">
-
     <style>
         /* 內建可愛柔和波點背景 */
         body {
@@ -19,14 +13,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #FFF0F5; /* 輕柔粉紅底色 */
+            background-color: #FFF0F5;
             background-image: radial-gradient(#FFB6C1 20%, transparent 20%),
                               radial-gradient(#FFB6C1 20%, transparent 20%);
             background-size: 40px 40px;
             background-position: 0 0, 20px 20px;
             
-            /* 🌟 優先使用雲端楷體 (TW-Kai)，再用標楷體 🌟 */
-            font-family: "TW-Kai", "BiauKai", "DFKai-SB", "標楷體", "Kaiti TC", "Apple LiGothic Medium", STKaiti, serif;            
+            /* 🌟 核心修正：加入 Kaiti TC，確保 Apple 裝置（iPhone/iPad）能完美顯示內置楷體 🌟 */
+            font-family: "TW-Kai", "BiauKai", "DFKai-SB", "標楷體", "Kaiti TC", STKaiti, serif;
+            
             user-select: none;
             overflow: hidden;
             cursor: pointer;
@@ -39,7 +34,7 @@
             max-width: 800px;
             max-height: 600px;
             background: rgba(255, 255, 255, 0.95);
-            border: 12px solid #FFDEE9; /* 可愛粉嫩邊框 */
+            border: 12px solid #FFDEE9;
             border-radius: 40px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             display: flex;
@@ -58,7 +53,7 @@
             color: #4A4A4A;
             text-align: center;
             line-height: 1;
-            font-weight: normal; /* 楷體不建議太粗，保持原本字形結構 */
+            font-weight: normal;
         }
     </style>
 </head>
