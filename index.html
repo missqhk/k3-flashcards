@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>幼兒識字閃卡</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@900&family=ZCOOL+XiaoWei&family=Ma+Shan+Zheng&family=Noto+Sans+TC&family=Noto+Serif+HK&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=TW-Kai&display=swap" rel="stylesheet">
+
     <style>
         /* 內建可愛柔和波點背景 */
         body {
@@ -18,13 +24,16 @@
                               radial-gradient(#FFB6C1 20%, transparent 20%);
             background-size: 40px 40px;
             background-position: 0 0, 20px 20px;
-            font-family: "BiauKai", "DFKai-SB", "標楷體", STKaiti, serif;
+            
+            /* 🌟 優先使用雲端楷體 (TW-Kai)，再用標楷體 🌟 */
+            font-family: "TW-Kai", "BiauKai", "DFKai-SB", "標楷體", STKaiti, serif;
+            
             user-select: none;
             overflow: hidden;
             cursor: pointer;
         }
 
-        /* 閃卡容器，確保字體超級大而且完美置中 */
+        /* 閃卡容器 */
         .card-container {
             width: 90vw;
             height: 80vh;
@@ -41,16 +50,16 @@
         }
 
         .card-container:active {
-            transform: scale(0.98); /* 點擊時有微微縮小的互動感 */
+            transform: scale(0.98);
         }
 
-        /* 中文字體樣式：特大、置中、標楷體 */
+        /* 中文字體樣式 */
         .word {
-            font-size: min(45vw, 320px); /* 根據螢幕大小自動縮放，確保字夠大又唔會出界 */
+            font-size: min(45vw, 320px);
             color: #4A4A4A;
             text-align: center;
             line-height: 1;
-            font-weight: bold;
+            font-weight: normal; /* 楷體不建議太粗，保持原本字形結構 */
         }
     </style>
 </head>
@@ -70,18 +79,15 @@
         const wordDisplay = document.getElementById('wordDisplay');
         const flashCard = document.getElementById('flashCard');
 
-        // 顯示當前字寶寶
         function updateCard() {
             wordDisplay.textContent = words[currentIndex];
         }
 
-        // 點擊全螢幕任何地方，就會自動換下一個字
         document.body.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % words.length; // 讀到最後一個字會自動循環返去第一個
+            currentIndex = (currentIndex + 1) % words.length;
             updateCard();
         });
 
-        // 預載第一個字
         updateCard();
     </script>
 
