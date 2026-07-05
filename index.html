@@ -71,7 +71,8 @@
         }
 
         .btn {
-            font-family: inherit;
+            /* 強制按鈕也使用可愛的霞鶩文楷 */
+            font-family: "LXGW WenKai TC", "BiauKai", "DFKai-SB", "標楷體", STKaiti, serif;
             font-size: 24px;
             padding: 15px 30px;
             border: none;
@@ -80,7 +81,7 @@
             box-shadow: 0 8px 15px rgba(0,0,0,0.1);
             transition: all 0.2s ease;
             font-weight: bold;
-            color: #555;
+            color: #4A4A4A; /* 統一改為深灰色 */
         }
 
         .btn:active {
@@ -112,10 +113,13 @@
         .end-text {
             font-size: 24px;
             margin: 10px 0;
+            font-family: "LXGW WenKai TC", "BiauKai", "DFKai-SB", "標楷體", STKaiti, serif;
         }
 
         input[type="text"] {
-            font-family: inherit;
+            /* 強制輸入框也使用可愛字體 */
+            font-family: "LXGW WenKai TC", "BiauKai", "DFKai-SB", "標楷體", STKaiti, serif;
+            color: #4A4A4A;
             font-size: 20px;
             padding: 10px 15px;
             border: 3px solid #AED6F1;
@@ -141,7 +145,8 @@
             width: 100%;
             text-align: center;
             font-size: 16px;
-            color: #7FB3D5;
+            color: #4A4A4A; /* 改為深灰色，令對比度更高 */
+            font-family: "LXGW WenKai TC", "BiauKai", "DFKai-SB", "標楷體", STKaiti, serif; /* 強制使用可愛字體 */
             font-weight: bold;
             letter-spacing: 2px;
         }
@@ -154,7 +159,6 @@
             <div class="word" id="wordDisplay"></div>
         </div>
         <div class="button-group">
-            <button class="btn btn-wrong" onclick="handleAnswer(false)">再想一想 🤔</button>
             <button class="btn btn-correct" onclick="handleAnswer(true)">正確 🌟</button>
         </div>
     </div>
@@ -175,7 +179,7 @@
     <div class="footer">遊戲設計： Miss Q</div>
 
     <script>
-        const words = ["人", "口", "手", "足", "目", "耳", "頭", "心", "父", "母", "爸", "媽", "哥", "姐", "弟", "妹", "男", "女", "子", "老", "師", "生", "友", "山", "水", "石", "田", "土", "火", "風", "雨", "雪", "電", "天", "地", "花", "草", "木", "魚", "鳥", "馬", "牛", "羊", "狗", "貓", "蟲", "紅", "黃", "藍", "綠", "黑", "白", "上", "下", "left", "右", "前", "後", "中", "內", "外", "大", "小", "長", "短", "坐", "立", "走", "跑", "看", "聽", "說", "讀", "寫", "吃", "喝", "玩", "去", "來", "出", "入", "開", "關", "家", "車", "書", "筆", "衣"];
+        const words = ["人", "口", "手", "足", "目", "耳", "頭", "心", "父", "母", "爸", "媽", "哥", "姐", "弟", "妹", "男", "女", "子", "老", "師", "生", "友", "山", "水", "石", "田", "土", "火", "風", "雨", "雪", "電", "天", "地", "花", "草", "木", "魚", "鳥", "馬", "牛", "羊", "狗", "貓", "蟲", "紅", "黃", "藍", "綠", "黑", "白", "上", "下", "左", "右", "前", "後", "中", "內", "外", "大", "小", "長", "短", "坐", "立", "走", "跑", "看", "聽", "說", "讀", "寫", "吃", "喝", "玩", "去", "來", "出", "入", "開", "關", "家", "車", "書", "筆", "衣"];
 
         let currentIndex = 0;
         let score = 0;
