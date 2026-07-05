@@ -9,36 +9,167 @@
     <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&display=swap" rel="stylesheet">
 
     <style>
-        * { font-family: "jf-openhuninn", "M PLUS Rounded 1c", sans-serif; font-weight: bold; color: #4A4A4A; }
-        body { margin: 0; padding: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #EBF5FB; background-image: radial-gradient(#AED6F1 20%, transparent 20%), radial-gradient(#AED6F1 20%, transparent 20%); background-size: 40px 40px; background-position: 0 0, 20px 20px; user-select: none; overflow: hidden; }
-        
-        #start-screen, #game-container, #end-screen { display: flex; flex-direction: column; align-items: center; width: 100%; position: absolute; }
-        #game-container, #end-screen { display: none; }
+        * {
+            font-family: "jf-openhuninn", "M PLUS Rounded 1c", sans-serif;
+            font-weight: bold;
+            color: #4A4A4A;
+        }
 
-        .card-container { width: 85vw; min-height: 55vh; max-width: 600px; background: rgba(255, 255, 255, 0.95); border: 12px solid #D6EAF8; border-radius: 40px; box-shadow: 0 15px 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px 20px; text-align: center; box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #EBF5FB; 
+            background-image: radial-gradient(#AED6F1 20%, transparent 20%),
+                              radial-gradient(#AED6F1 20%, transparent 20%);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            user-select: none;
+            overflow: hidden;
+        }
+
+        #start-screen, #game-container, #end-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        #game-container, #end-screen {
+            display: none;
+        }
+
+        .card-container {
+            width: 85vw;
+            min-height: 55vh; 
+            height: auto;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 12px solid #D6EAF8; 
+            border-radius: 40px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px; 
+            padding: 30px 20px; 
+            text-align: center;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .word {
+            font-size: min(40vw, 220px); 
+            line-height: 1;
+            margin: 0;
+            font-family: "BiauKai", "Kaiti TC", "DFKai-SB", "標楷體", STKaiti, "LXGW WenKai TC", serif !important;
+            font-weight: normal !important; 
+        }
+
+        .btn {
+            font-family: "jf-openhuninn", sans-serif !important;
+            font-size: 28px;
+            padding: 15px 50px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+            background-color: #E8F8F5; 
+            border: 4px solid #A3E4D7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 30px; 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* 更改了 Class 名字，防止手機廣告攔截器誤擋按鈕 */
+        .btn-special {
+            font-size: 22px;
+            background-color: #FEF9E7; 
+            border: 4px solid #F9E79F;
+            margin-top: 15px;
+            margin-bottom: 5px; 
+            padding: 12px 35px;
+        }
+
+        .trophy {
+            font-size: 60px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
         
-        .word { font-size: min(40vw, 220px); line-height: 1; margin: 0; font-family: "BiauKai", "Kaiti TC", "DFKai-SB", "標楷體", STKaiti, serif !important; font-weight: normal !important; }
-        
-        .btn { font-family: "jf-openhuninn", sans-serif !important; font-size: 28px; padding: 15px 50px; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 8px 15px rgba(0,0,0,0.1); background-color: #E8F8F5; border: 4px solid #A3E4D7; margin-bottom: 30px; }
-        .btn-action { font-size: 22px; background-color: #FEF9E7; border: 4px solid #F9E79F; margin-top: 15px; padding: 12px 35px; }
-        
-        .trophy { font-size: 60px; margin-bottom: 10px; font-weight: normal; }
-        .end-text { font-size: 24px; margin: 5px 0; }
-        .start-text { font-size: 20px; color: #E67E22; margin: 15px 0; line-height: 1.6; }
-        
-        input[type="text"] { font-family: "jf-openhuninn", sans-serif !important; font-size: 20px; padding: 10px; border: 3px solid #AED6F1; border-radius: 15px; text-align: center; width: 75%; margin: 15px 0; }
-        .praise-message { font-size: 18px; color: #E67E22; margin-top: 10px; line-height: 1.6; display: none; width: 90%; }
-        .footer { font-family: "jf-openhuninn", sans-serif !important; position: fixed; bottom: 15px; width: 100%; text-align: center; font-size: 18px; letter-spacing: 1px; }
+        .end-text {
+            font-size: 24px;
+            margin: 5px 0;
+        }
+
+        .start-text {
+            font-size: 20px;
+            color: #E67E22;
+            margin: 15px 0;
+            line-height: 1.6;
+            padding: 0 10px;
+        }
+
+        input[type="text"] {
+            font-family: "jf-openhuninn", sans-serif !important;
+            font-size: 20px;
+            padding: 10px;
+            border: 3px solid #AED6F1;
+            border-radius: 15px;
+            outline: none;
+            text-align: center;
+            width: 75%;
+            margin: 15px 0;
+            box-sizing: border-box;
+        }
+
+        .praise-message {
+            font-size: 18px; 
+            color: #E67E22;
+            margin-top: 10px;
+            line-height: 1.6;
+            padding: 0 5px;
+            display: none; 
+            word-break: break-all;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .footer {
+            font-family: "jf-openhuninn", sans-serif !important;
+            position: fixed;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+            font-size: 18px; 
+            letter-spacing: 1px;
+            z-index: 10;
+        }
     </style>
 </head>
-<body>
+<body ontouchstart="">
 
     <div id="start-screen">
         <div class="card-container">
             <div class="trophy">🎈</div>
-            <div class="end-text" style="font-weight: bold;">識字大挑戰</div>
-            <div class="start-text">這裡有 <strong>88</strong> 個 K3 常見中文字！<br>你準備好接受挑戰了嗎？</div>
-            <button class="btn btn-action" onclick="enterGame()">接受挑戰 🚀</button>
+            <div class="end-text" style="font-size: 26px; font-weight: bold;">識字大挑戰</div>
+            <div class="start-text">
+                這裡有 <strong>88</strong> 個幼稚園 K3<br>常見中文字！<br><br>你準備好接受挑戰了嗎？
+            </div>
+            <button type="button" class="btn btn-special" onclick="startGame()">接受挑戰 🚀</button>
         </div>
     </div>
 
@@ -46,16 +177,18 @@
         <div class="card-container">
             <div class="word" id="wordDisplay"></div>
         </div>
-        <button class="btn" onclick="nextWord()">正確 🌟</button>
+        <button type="button" class="btn" onclick="handleAnswer()">正確 🌟</button>
     </div>
 
     <div id="end-screen">
         <div class="card-container">
             <div class="trophy">🏆</div>
             <div class="end-text">完成挑戰了！</div>
-            <div class="end-text">你答對了 <span id="scoreDisplay">0</span> 個字！</div>
-            <input type="text" id="playerName" placeholder="輸入名字">
-            <button class="btn btn-action" id="submitBtn" onclick="showPraise()">領取獎盃 🎁</button>
+            <div class="end-text">你答對了 <span id="scoreDisplay" style="color: #27AE60;">0</span> 個字！</div>
+            
+            <input type="text" id="playerName" placeholder="輸入你的名字">
+            <button type="button" class="btn btn-special" id="submitBtn" onclick="showPraise()">領取獎盃 🎁</button>
+            
             <div class="praise-message" id="praiseMessage"></div>
         </div>
     </div>
@@ -64,18 +197,20 @@
 
     <script>
         var words = ["人", "口", "手", "足", "目", "耳", "頭", "心", "父", "母", "爸", "媽", "哥", "姐", "弟", "妹", "男", "女", "子", "老", "師", "生", "友", "山", "水", "石", "田", "土", "火", "風", "雨", "雪", "電", "天", "地", "花", "草", "木", "魚", "鳥", "馬", "牛", "羊", "狗", "貓", "蟲", "紅", "黃", "藍", "綠", "黑", "白", "上", "下", "左", "右", "前", "後", "中", "內", "外", "大", "小", "長", "短", "坐", "立", "走", "跑", "看", "聽", "說", "讀", "寫", "吃", "喝", "玩", "去", "來", "出", "入", "開", "關", "家", "車", "書", "筆", "衣"];
-        var idx = 0, score = 0;
+        var currentIndex = 0;
+        var score = 0;
 
-        function enterGame() {
+        function startGame() {
             document.getElementById('start-screen').style.display = 'none';
             document.getElementById('game-container').style.display = 'flex';
-            document.getElementById('wordDisplay').textContent = words[0];
+            document.getElementById('wordDisplay').textContent = words[currentIndex];
         }
 
-        function nextWord() {
-            score++; idx++;
-            if (idx < words.length) {
-                document.getElementById('wordDisplay').textContent = words[idx];
+        function handleAnswer() {
+            score++;
+            currentIndex++;
+            if (currentIndex < words.length) {
+                document.getElementById('wordDisplay').textContent = words[currentIndex];
             } else {
                 document.getElementById('game-container').style.display = 'none';
                 document.getElementById('end-screen').style.display = 'flex';
@@ -84,14 +219,21 @@
         }
 
         function showPraise() {
-            var n = document.getElementById('playerName').value.trim();
-            if(!n) return alert("請先輸入名字！");
-            var p = document.getElementById('praiseMessage');
-            p.innerHTML = "<strong>" + n + "</strong> 小朋友，你太棒了！<br>你今天的表現非常出色。<br>請保持積極的心，未來更閃耀！✨🌈";
-            p.style.display = 'block';
-            document.getElementById('playerName').style.display = 'none';
+            var nameInput = document.getElementById('playerName');
+            var name = nameInput.value.trim();
+            if (name === "") {
+                alert("請先輸入名字喔！");
+                return;
+            }
+            
+            var praise = document.getElementById('praiseMessage');
+            praise.innerHTML = "<strong>" + name + "</strong> 小朋友，你太棒了！<br>學習是一件快樂的事，表現出色。<br>這座獎盃是你努力的證明，<br>請保持積極的心，未來更閃耀！✨🌈";
+            praise.style.display = 'block';
+            
+            nameInput.style.display = 'none';
             document.getElementById('submitBtn').style.display = 'none';
         }
     </script>
+
 </body>
 </html>
