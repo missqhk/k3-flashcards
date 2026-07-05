@@ -10,83 +10,241 @@
     <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&display=swap" rel="stylesheet">
 
     <style>
-        /* 內建可愛柔和波點背景 */
+        /* 內建可愛柔和粉藍波點背景 */
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: #E0F7FA; 
+            background-color: #EBF5FB; 
             background-image: radial-gradient(#AED6F1 20%, transparent 20%),
                               radial-gradient(#AED6F1 20%, transparent 20%);
             background-size: 40px 40px;
             background-position: 0 0, 20px 20px;
-            
-            /* 強制優先使用霞鶩文楷 */
             font-family: "LXGW WenKai TC", "BiauKai", "DFKai-SB", "標楷體", STKaiti, serif;
-            
             user-select: none;
             overflow: hidden;
-            cursor: pointer;
+            color: #4A4A4A;
+        }
+
+        /* 遊戲主要版面容器 */
+        #game-container, #end-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* 隱藏結算畫面 */
+        #end-screen {
+            display: none;
         }
 
         /* 閃卡容器 */
         .card-container {
-            width: 90vw;
-            height: 80vh;
-            max-width: 800px;
-            max-height: 600px;
+            width: 85vw;
+            height: 55vh;
+            max-width: 600px;
             background: rgba(255, 255, 255, 0.95);
             border: 12px solid #D6EAF8; 
             border-radius: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             transition: transform 0.2s ease;
-        }
-
-        .card-container:active {
-            transform: scale(0.98); 
+            margin-bottom: 30px;
+            padding: 20px;
+            text-align: center;
         }
 
         /* 中文字體樣式 */
         .word {
-            font-size: min(45vw, 320px); 
-            color: #4A4A4A;
-            text-align: center;
+            font-size: min(40vw, 250px); 
             line-height: 1;
-            font-weight: normal; /* 楷書不需要加粗，保持原本筆劃最靚 */
+            font-weight: normal; 
+        }
+
+        /* 按鈕區域 */
+        .button-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* 按鈕基本樣式 */
+        .btn {
+            font-family: inherit;
+            font-size: 24px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-wrong {
+            background-color: #FFE4E1; /* 粉紅色，再想一想 */
+            border: 4px solid #FFC0CB;
+        }
+
+        .btn-correct {
+            background-color: #E8F8F5; /* 淺綠色，正確 */
+            border: 4px solid #A3E4D7;
+        }
+
+        .btn-submit {
+            background-color: #FEF9E7; /* 淺黃色，提交名字 */
+            border: 4px solid #F9E79F;
+            margin-top: 15px;
+        }
+
+        /* 結算畫面特定樣式 */
+        .trophy {
+            font-size: 80px;
+            margin-bottom: 10px;
+        }
+        
+        .end-text {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        input[type="text"] {
+            font-family: inherit;
+            font-size: 20px;
+            padding: 10px 15px;
+            border: 3px solid #AED6F1;
+            border-radius: 15px;
+            outline: none;
+            text-align: center;
+            width: 80%;
+            margin-top: 15px;
+        }
+
+        .praise-message {
+            font-size: 22px;
+            color: #E67E22;
+            margin-top: 20px;
+            line-height: 1.5;
+            display: none; /* 輸入名字後才顯示 */
+        }
+
+        /* 底部署名 */
+        .footer {
+            position: fixed;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+            color: #7FB3D5;
+            font-weight: bold;
+            letter-spacing: 2px;
         }
     </style>
 </head>
 <body>
 
-    <div class="card-container" id="flashCard">
-        <div class="word" id="wordDisplay"></div>
+    <div id="game-container">
+        <div class="card-container">
+            <div class="word" id="wordDisplay"></div>
+        </div>
+        <div class="button-group">
+            <button class="btn btn-wrong" onclick="handleAnswer(false)">再想一想 🤔</button>
+            <button class="btn btn-correct" onclick="handleAnswer(true)">正確 🌟</button>
+        </div>
     </div>
 
+    <div id="end-screen">
+        <div class="card-container">
+            <div class="trophy">🏆</div>
+            <div class="end-text">恭喜你完成挑戰！</div>
+            <div class="end-text">你一共答對了 <strong id="scoreDisplay" style="color: #27AE60; font-size: 32px;">0</strong> 題！</div>
+            
+            <input type="text" id="playerName" placeholder="請輸入你的名字">
+            <button class="btn btn-submit" onclick="showPraise()">領取獎盃 🎁</button>
+            
+            <div class="praise-message" id="praiseMessage"></div>
+        </div>
+    </div>
+
+    <div class="footer">遊戲設計： Miss Q</div>
+
     <script>
-        // ==========================================
-        // ✨ 在這裡隨時修改你想給學生認讀的中文字 ✨
-        // ==========================================
-        const words = ["山", "水", "日", "月", "火", "木", "天", "地", "人", "手", "口", "心","土", "耳", "風", "金", "林", "牛", "羊", "車", "牙", "花", "水果", "動物"];
+        // 你提供的字庫
+        const words = ["人", "口", "手", "足", "目", "耳", "頭", "心", "父", "母", "爸", "媽", "哥", "姐", "弟", "妹", "男", "女", "子", "老", "師", "生", "友", "山", "水", "石", "田", "土", "火", "風", "雨", "雪", "電", "天", "地", "花", "草", "木", "魚", "鳥", "馬", "牛", "羊", "狗", "貓", "蟲", "紅", "黃", "藍", "綠", "黑", "白", "上", "下", "左", "右", "前", "後", "中", "內", "外", "大", "小", "長", "短", "坐", "立", "走", "跑", "看", "聽", "說", "讀", "寫", "吃", "喝", "玩", "去", "來", "出", "入", "開", "關", "家", "車", "書", "筆", "衣"];
 
         let currentIndex = 0;
-        const wordDisplay = document.getElementById('wordDisplay');
-        const flashCard = document.getElementById('flashCard');
+        let score = 0;
 
+        const wordDisplay = document.getElementById('wordDisplay');
+        const gameContainer = document.getElementById('game-container');
+        const endScreen = document.getElementById('end-screen');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const playerNameInput = document.getElementById('playerName');
+        const praiseMessage = document.getElementById('praiseMessage');
+
+        // 顯示當前中文字
         function updateCard() {
             wordDisplay.textContent = words[currentIndex];
         }
 
-        document.body.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % words.length;
-            updateCard();
-        });
+        // 處理作答按鈕點擊
+        function handleAnswer(isCorrect) {
+            if (isCorrect) {
+                score++;
+            }
 
+            currentIndex++;
+
+            // 檢查是否還有字
+            if (currentIndex < words.length) {
+                updateCard();
+            } else {
+                showEndScreen();
+            }
+        }
+
+        // 顯示結算畫面
+        function showEndScreen() {
+            gameContainer.style.display = 'none';
+            endScreen.style.display = 'flex';
+            scoreDisplay.textContent = score;
+        }
+
+        // 顯示讚美說話
+        function showPraise() {
+            const name = playerNameInput.value.trim();
+            if (name === "") {
+                alert("請先輸入名字喔！");
+                return;
+            }
+            
+            // 書面語、積極正面的讚美
+            praiseMessage.innerHTML = `
+                <strong>${name}</strong> 小朋友，你真的太棒了！👏<br>
+                學習是一件很快樂的事，你今天的表現非常出色。<br>
+                這座金盃是你努力的證明，請繼續保持積極學習的心，未來的你會更加閃耀！✨🌈
+            `;
+            praiseMessage.style.display = 'block';
+            
+            // 隱藏輸入框和按鈕，讓畫面更乾淨
+            playerNameInput.style.display = 'none';
+            document.querySelector('.btn-submit').style.display = 'none';
+        }
+
+        // 遊戲初始化
         updateCard();
     </script>
 
