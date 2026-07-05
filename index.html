@@ -7,13 +7,13 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Huninn&family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
 
     <style>
         /* 全域使用可愛圓圓粗字體，統一深灰色 */
         * {
-            font-family: "LXGW WenKai TC", "BiauKai", "標楷體", serif;
-            font-weight: 700;
+            font-family: "M PLUS Rounded 1c", "Huninn", "Arial Rounded MT Bold", sans-serif;
+            font-weight: 800; /* 設定為極粗體，讓字看起來圓滾滾 */
             color: #4A4A4A;
         }
 
@@ -64,13 +64,13 @@
             position: relative;
         }
 
-        /* 閃卡中的中文字保留原有大字體，使用標楷體 */
+        /* 閃卡中的中文字保留原有大字體，強制使用標楷體 */
         .word {
             font-size: min(40vw, 250px); 
             line-height: 1;
             margin: 0;
-            font-family: "BiauKai", "標楷體", serif;
-            font-weight: normal;
+            font-family: "BiauKai", "DFKai-SB", "標楷體", STKaiti, serif;
+            font-weight: normal; /* 標楷體不需要加粗，保持筆劃清晰 */
         }
 
         .btn {
@@ -117,14 +117,17 @@
             text-align: center;
             width: 70%;
             margin: 10px 0;
+            /* 讓輸入框內的字也變粗圓體 */
+            font-family: "M PLUS Rounded 1c", "Huninn", sans-serif;
+            font-weight: 800;
         }
 
-        /* 讚美文字大小已調整為 18px 以 fit 入白框中 */
+        /* 讚美文字大小再微調為 17px，確保極粗字體也能完美 fit 入白框 */
         .praise-message {
-            font-size: 18px; 
+            font-size: 17px; 
             color: #E67E22;
             margin-top: 10px;
-            line-height: 1.6;
+            line-height: 1.5;
             padding: 0 10px;
             display: none; 
             word-wrap: break-word;
@@ -136,7 +139,6 @@
             width: 100%;
             text-align: center;
             font-size: 18px; 
-            font-weight: bold;
             letter-spacing: 1px;
         }
     </style>
