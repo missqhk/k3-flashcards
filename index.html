@@ -2,7 +2,6 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    /* 確保手機版不會被意外放大縮小 */
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>幼兒識字閃卡 - Miss Q</title>
     
@@ -10,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&display=swap" rel="stylesheet">
 
     <style>
-        /* 🌟 全域套用可愛粗圓字體 (粉圓體)，統一深灰色 */
         * {
             font-family: "jf-openhuninn", "M PLUS Rounded 1c", sans-serif;
             font-weight: bold;
@@ -25,7 +23,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* 恢復可愛淺藍色波點背景 */
             background-color: #EBF5FB; 
             background-image: radial-gradient(#AED6F1 20%, transparent 20%),
                               radial-gradient(#AED6F1 20%, transparent 20%);
@@ -35,7 +32,6 @@
             overflow: hidden;
         }
 
-        /* 🎵 恢復右上角音樂開關按鈕 - 加大並確保在最上層 */
         #muteBtn {
             position: fixed;
             top: 25px;
@@ -48,7 +44,7 @@
             height: 55px;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            z-index: 9999; /* 確保不會被遮擋 */
+            z-index: 9999; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -67,15 +63,14 @@
             width: 100%;
         }
 
-        /* 初始隱藏遊戲與結算畫面 */
         #game-container, #end-screen {
             display: none;
         }
 
-        /* 閃卡容器 */
         .card-container {
             width: 85vw;
-            height: 55vh; /* 稍微縮短高度，留更多空間給按鈕和署名 */
+            min-height: 55vh; /* 🌟 修正：改用彈性高度，字太多會自動拉長，不再跌出框外 */
+            height: auto;
             max-width: 600px;
             background: rgba(255, 255, 255, 0.95);
             border: 12px solid #D6EAF8; 
@@ -85,24 +80,21 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin-bottom: 25px; /* 卡片下方間距 */
-            padding: 20px;
+            margin-bottom: 25px; 
+            padding: 30px 20px; /* 增加上下 Padding，讓版面更鬆動 */
             text-align: center;
             box-sizing: border-box;
             position: relative;
         }
 
-        /* 🌟 閃卡中的大字：強制使用原來的標楷體/手寫體 */
         .word {
             font-size: min(40vw, 220px); 
             line-height: 1;
             margin: 0;
-            /* Apple 優先用 Kaiti TC，Android 用 WenKai TC 保底，電腦睇保留原本標楷體，確保全平台都有標準楷書 */
             font-family: "BiauKai", "Kaiti TC", "DFKai-SB", "標楷體", STKaiti, "LXGW WenKai TC", serif !important;
             font-weight: normal !important; 
         }
 
-        /* 按鈕樣式：重新設計圓圓粗粗，深灰色字體 */
         .btn {
             font-family: "jf-openhuninn", sans-serif !important;
             font-size: 28px;
@@ -118,31 +110,30 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            margin-bottom: 30px; /* 按鈕與底部署名保持舒服距離 */
+            margin-bottom: 30px; 
         }
 
         .btn:active {
             transform: scale(0.95);
         }
 
-        /* 開始與結算專用按鈕 */
         .btn-action {
             font-size: 22px;
             background-color: #FEF9E7; 
             border: 4px solid #F9E79F;
-            margin-top: 10px;
-            margin-bottom: 10px; /* 結算畫面按鈕間距 */
+            margin-top: 15px;
+            margin-bottom: 5px; 
             padding: 12px 35px;
         }
 
         .trophy {
             font-size: 60px;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             font-weight: normal;
         }
         
         .end-text {
-            font-size: 22px;
+            font-size: 24px;
             margin: 5px 0;
         }
 
@@ -163,11 +154,10 @@
             outline: none;
             text-align: center;
             width: 75%;
-            margin: 10px 0;
+            margin: 15px 0;
             box-sizing: border-box;
         }
 
-        /* 讚美說話優化：確保 fit 入框，縮小字級 (18px)，行距 1.6 */
         .praise-message {
             font-size: 18px; 
             color: #E67E22;
@@ -180,7 +170,6 @@
             box-sizing: border-box;
         }
 
-        /* 🌟 底部署名：同一隻深灰色可愛粗圓字體，固定置中顯示在遊戲底下 🌟 */
         .footer {
             font-family: "jf-openhuninn", sans-serif !important;
             position: fixed;
@@ -196,7 +185,7 @@
 <body>
 
     <audio id="bgMusic" loop>
-        <source src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Twinkle_Twinkle_Little_Star.ogg" type="audio/ogg">
+        <source src="https://www.mfiles.co.uk/mp3-downloads/twinkle-twinkle-little-star.mp3" type="audio/mpeg">
     </audio>
 
     <button id="muteBtn" onclick="toggleMusic()">🔊</button>
@@ -226,92 +215,4 @@
             <div class="end-text">你答對了 <span id="scoreDisplay" style="color: #27AE60;">0</span> 個字！</div>
             
             <input type="text" id="playerName" placeholder="輸入你的名字">
-            <button class="btn btn-action" id="submitBtn" onclick="showPraise()">領取獎盃 🎁</button>
-            
-            <div class="praise-message" id="praiseMessage"></div>
-        </div>
-    </div>
-
-    <div class="footer">遊戲設計： Miss Q</div>
-
-    <script>
-        // 修正字庫：移除「左右left」的英文單字
-        const words = ["人", "口", "手", "足", "目", "耳", "頭", "心", "父", "母", "爸", "媽", "哥", "姐", "弟", "妹", "男", "女", "子", "老", "師", "生", "友", "山", "水", "石", "田", "土", "火", "風", "雨", "雪", "電", "天", "地", "花", "草", "木", "魚", "鳥", "馬", "牛", "羊", "狗", "貓", "蟲", "紅", "黃", "藍", "綠", "黑", "白", "上", "下", "左", "右", "前", "後", "中", "內", "外", "大", "小", "長", "短", "坐", "立", "走", "跑", "看", "聽", "說", "讀", "寫", "吃", "喝", "玩", "去", "來", "出", "入", "開", "關", "家", "車", "書", "筆", "衣"];
-
-        let currentIndex = 0;
-        let score = 0;
-
-        const wordDisplay = document.getElementById('wordDisplay');
-        const startScreen = document.getElementById('start-screen');
-        const gameContainer = document.getElementById('game-container');
-        const endScreen = document.getElementById('end-screen');
-        const scoreDisplay = document.getElementById('scoreDisplay');
-        const playerNameInput = document.getElementById('playerName');
-        const praiseMessage = document.getElementById('praiseMessage');
-        const submitBtn = document.getElementById('submitBtn');
-        
-        const bgMusic = document.getElementById('bgMusic');
-        const muteBtn = document.getElementById('muteBtn');
-
-        // 音樂開關功能
-        function toggleMusic() {
-            if (bgMusic.paused) {
-                bgMusic.play();
-                muteBtn.textContent = '🔊';
-            } else {
-                bgMusic.pause();
-                muteBtn.textContent = '🔇';
-            }
-        }
-
-        // 開始遊戲
-        function startGame() {
-            startScreen.style.display = 'none';
-            gameContainer.style.display = 'flex';
-            
-            // 點擊開始時，觸發音樂播放
-            bgMusic.play().catch(function(error) {
-                console.log("自動播放被阻擋");
-            });
-            muteBtn.textContent = '🔊';
-            
-            updateCard();
-        }
-
-        function updateCard() {
-            wordDisplay.textContent = words[currentIndex];
-        }
-
-        function handleAnswer() {
-            score++;
-            currentIndex++;
-            if (currentIndex < words.length) {
-                updateCard();
-            } else {
-                showEndScreen();
-            }
-        }
-
-        function showEndScreen() {
-            gameContainer.style.display = 'none';
-            endScreen.style.display = 'flex';
-            scoreDisplay.textContent = score;
-        }
-
-        function showPraise() {
-            const name = playerNameInput.value.trim();
-            if (name === "") {
-                alert("請先輸入名字喔！");
-                return;
-            }
-            
-            praiseMessage.innerHTML = "<strong>" + name + "</strong> 小朋友，你太棒了！<br>學習是一件快樂的事，表現出色。<br>這座獎盃是你努力的證明，<br>請保持積極的心，未來更閃耀！✨🌈";
-            praiseMessage.style.display = 'block';
-            
-            playerNameInput.style.display = 'none';
-            submitBtn.style.display = 'none';
-        }
-    </script>
-
-</body>
-</html>
+            <button class="btn btn-action" id="submitBtn" onclick="showPraise()">領取獎盃
