@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>幼兒識字閃卡</title>
     <style>
+        /* 🌐 引入免費的開源標準教育楷體（確保任何手機都能正常顯示楷體） */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Bukai&display=swap');
+        
+        /* 引入全平台通用的開源楷體字型線上下載 */
+        @font-face {
+            font-family: 'EduKai';
+            src: url('https://cdn.jsdelivr.net/gh/ConvertSpaces/Font-BiauKai@master/BiauKai.ttf') format('truetype');
+        }
+
         /* 內建可愛柔和波點背景 */
         body {
             margin: 0;
@@ -13,28 +22,26 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #FFF0F5;
+            background-color: #FFF0F5; /* 輕柔粉紅底色 */
             background-image: radial-gradient(#FFB6C1 20%, transparent 20%),
                               radial-gradient(#FFB6C1 20%, transparent 20%);
             background-size: 40px 40px;
             background-position: 0 0, 20px 20px;
-            
-            /* 🌟 核心修正：加入 Kaiti TC，確保 Apple 裝置（iPhone/iPad）能完美顯示內置楷體 🌟 */
-            font-family: "TW-Kai", "BiauKai", "DFKai-SB", "標楷體", "Kaiti TC", STKaiti, serif;
-            
+            /* 優先使用網絡字體 EduKai，確保手機有一筆一劃的楷書效果 */
+            font-family: "EduKai", "BiauKai", "DFKai-SB", "標楷體", STKaiti, serif;
             user-select: none;
             overflow: hidden;
             cursor: pointer;
         }
 
-        /* 閃卡容器 */
+        /* 閃卡容器，確保字體超級大而且完美置中 */
         .card-container {
             width: 90vw;
             height: 80vh;
             max-width: 800px;
             max-height: 600px;
             background: rgba(255, 255, 255, 0.95);
-            border: 12px solid #FFDEE9;
+            border: 12px solid #FFDEE9; /* 可愛粉嫩邊框 */
             border-radius: 40px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             display: flex;
@@ -44,16 +51,16 @@
         }
 
         .card-container:active {
-            transform: scale(0.98);
+            transform: scale(0.98); /* 點擊時有微微縮小的互動感 */
         }
 
-        /* 中文字體樣式 */
+        /* 中文字體樣式：特大、置中、標楷體 */
         .word {
-            font-size: min(45vw, 320px);
+            font-size: min(45vw, 320px); /* 根據螢幕大小自動縮放 */
             color: #4A4A4A;
             text-align: center;
             line-height: 1;
-            font-weight: normal;
+            font-weight: normal; /* 楷體用 normal 筆劃最清晰，粗體有時會太臃腫 */
         }
     </style>
 </head>
@@ -73,15 +80,18 @@
         const wordDisplay = document.getElementById('wordDisplay');
         const flashCard = document.getElementById('flashCard');
 
+        // 顯示當前字寶寶
         function updateCard() {
             wordDisplay.textContent = words[currentIndex];
         }
 
+        // 點擊全螢幕任何地方，就會自動換下一個字
         document.body.addEventListener('click', () => {
             currentIndex = (currentIndex + 1) % words.length;
             updateCard();
         });
 
+        // 預載第一個字
         updateCard();
     </script>
 
