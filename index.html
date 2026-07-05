@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&display=swap" rel="stylesheet">
 
     <style>
-        /* 內建可愛柔和粉藍波點背景 */
         body {
             margin: 0;
             padding: 0;
@@ -30,7 +29,6 @@
             color: #4A4A4A;
         }
 
-        /* 遊戲主要版面容器 */
         #game-container, #end-screen {
             display: flex;
             flex-direction: column;
@@ -38,12 +36,10 @@
             width: 100%;
         }
 
-        /* 隱藏結算畫面 */
         #end-screen {
             display: none;
         }
 
-        /* 閃卡容器 */
         .card-container {
             width: 85vw;
             height: 55vh;
@@ -60,22 +56,20 @@
             margin-bottom: 30px;
             padding: 20px;
             text-align: center;
+            box-sizing: border-box;
         }
 
-        /* 中文字體樣式 */
         .word {
             font-size: min(40vw, 250px); 
             line-height: 1;
             font-weight: normal; 
         }
 
-        /* 按鈕區域 */
         .button-group {
             display: flex;
             gap: 20px;
         }
 
-        /* 按鈕基本樣式 */
         .btn {
             font-family: inherit;
             font-size: 24px;
@@ -95,22 +89,21 @@
         }
 
         .btn-wrong {
-            background-color: #FFE4E1; /* 粉紅色，再想一想 */
+            background-color: #FFE4E1; 
             border: 4px solid #FFC0CB;
         }
 
         .btn-correct {
-            background-color: #E8F8F5; /* 淺綠色，正確 */
+            background-color: #E8F8F5; 
             border: 4px solid #A3E4D7;
         }
 
         .btn-submit {
-            background-color: #FEF9E7; /* 淺黃色，提交名字 */
+            background-color: #FEF9E7; 
             border: 4px solid #F9E79F;
             margin-top: 15px;
         }
 
-        /* 結算畫面特定樣式 */
         .trophy {
             font-size: 80px;
             margin-bottom: 10px;
@@ -131,6 +124,7 @@
             text-align: center;
             width: 80%;
             margin-top: 15px;
+            box-sizing: border-box;
         }
 
         .praise-message {
@@ -138,10 +132,9 @@
             color: #E67E22;
             margin-top: 20px;
             line-height: 1.5;
-            display: none; /* 輸入名字後才顯示 */
+            display: none; 
         }
 
-        /* 底部署名 */
         .footer {
             position: fixed;
             bottom: 15px;
@@ -182,8 +175,7 @@
     <div class="footer">遊戲設計： Miss Q</div>
 
     <script>
-        // 你提供的字庫
-        const words = ["人", "口", "手", "足", "目", "耳", "頭", "心", "父", "母", "爸", "媽", "哥", "姐", "弟", "妹", "男", "女", "子", "老", "師", "生", "友", "山", "水", "石", "田", "土", "火", "風", "雨", "雪", "電", "天", "地", "花", "草", "木", "魚", "鳥", "馬", "牛", "羊", "狗", "貓", "蟲", "紅", "黃", "藍", "綠", "黑", "白", "上", "下", "左", "右", "前", "後", "中", "內", "外", "大", "小", "長", "短", "坐", "立", "走", "跑", "看", "聽", "說", "讀", "寫", "吃", "喝", "玩", "去", "來", "出", "入", "開", "關", "家", "車", "書", "筆", "衣"];
+        const words = ["人", "口", "手", "足", "目", "耳", "頭", "心", "父", "母", "爸", "媽", "哥", "姐", "弟", "妹", "男", "女", "子", "老", "師", "生", "友", "山", "水", "石", "田", "土", "火", "風", "雨", "雪", "電", "天", "地", "花", "草", "木", "魚", "鳥", "馬", "牛", "羊", "狗", "貓", "蟲", "紅", "黃", "藍", "綠", "黑", "白", "上", "下", "left", "右", "前", "後", "中", "內", "外", "大", "小", "長", "短", "坐", "立", "走", "跑", "看", "聽", "說", "讀", "寫", "吃", "喝", "玩", "去", "來", "出", "入", "開", "關", "家", "車", "書", "筆", "衣"];
 
         let currentIndex = 0;
         let score = 0;
@@ -195,20 +187,15 @@
         const playerNameInput = document.getElementById('playerName');
         const praiseMessage = document.getElementById('praiseMessage');
 
-        // 顯示當前中文字
         function updateCard() {
             wordDisplay.textContent = words[currentIndex];
         }
 
-        // 處理作答按鈕點擊
         function handleAnswer(isCorrect) {
             if (isCorrect) {
                 score++;
             }
-
             currentIndex++;
-
-            // 檢查是否還有字
             if (currentIndex < words.length) {
                 updateCard();
             } else {
@@ -216,14 +203,22 @@
             }
         }
 
-        // 顯示結算畫面
+        document.addEventListener('keydown', function(event) {
+            if (gameContainer.style.display !== 'none') {
+                if (event.key === 'ArrowLeft') {
+                    handleAnswer(false);
+                } else if (event.key === 'ArrowRight') {
+                    handleAnswer(true);
+                }
+            }
+        });
+
         function showEndScreen() {
             gameContainer.style.display = 'none';
             endScreen.style.display = 'flex';
             scoreDisplay.textContent = score;
         }
 
-        // 顯示讚美說話
         function showPraise() {
             const name = playerNameInput.value.trim();
             if (name === "") {
@@ -231,20 +226,13 @@
                 return;
             }
             
-            // 書面語、積極正面的讚美
-            praiseMessage.innerHTML = `
-                <strong>${name}</strong> 小朋友，你真的太棒了！👏<br>
-                學習是一件很快樂的事，你今天的表現非常出色。<br>
-                這座金盃是你努力的證明，請繼續保持積極學習的心，未來的你會更加閃耀！✨🌈
-            `;
+            praiseMessage.innerHTML = "<strong>" + name + "</strong> 小朋友，你真的太棒了！👏<br>學習是一件很快樂的事，你今天的表現非常出色。<br>這座金盃是你努力的證明，請繼續保持積極學習的心，未來的你會更加閃耀！✨🌈";
             praiseMessage.style.display = 'block';
             
-            // 隱藏輸入框和按鈕，讓畫面更乾淨
             playerNameInput.style.display = 'none';
             document.querySelector('.btn-submit').style.display = 'none';
         }
 
-        // 遊戲初始化
         updateCard();
     </script>
 
